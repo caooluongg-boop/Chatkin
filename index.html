@@ -382,6 +382,7 @@ function start(r){
   const me=peer;
   setTimeout(()=>{if(me.open||peer!==me)return;toast('Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại');destroyPeer();show('#join')},12000);
   peer.on('open',()=>{
+    toast('Đã kết nối máy chủ, đang ghép...');
     if(role==='host'){openChat()}
     else{
       conn=peer.connect(PREFIX+code,{reliable:true});
@@ -396,6 +397,7 @@ function start(r){
   peer.on('call',onIncoming);
   peer.on('disconnected',()=>{try{peer&&!peer.destroyed&&peer.reconnect()}catch(e){}});
   peer.on('error',e=>{
+    toast('Lỗi: '+e.type+(e.message?' - '+e.message:''));
     if(e.type==='unavailable-id'&&role==='host'){destroyPeer();start('host');return}
     if(e.type==='peer-unavailable'){toast('Mã mời không tồn tại hoặc phòng đã đóng');destroyPeer();return}
     if(e.type==='network'||e.type==='server-error'||e.type==='socket-error'){toast('Lỗi mạng, thử lại');if(!$('#chat').classList.contains('on'))destroyPeer()}
