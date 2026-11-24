@@ -320,6 +320,8 @@ const ICE={iceServers:[
   {urls:'stun:global.stun.twilio.com:3478'},
   {urls:['turn:openrelay.metered.ca:80','turn:openrelay.metered.ca:443','turn:openrelay.metered.ca:443?transport=tcp'],username:'openrelayproject',credential:'openrelayproject'}
 ]};
+const SIGNAL=null;
+const PO=()=>Object.assign({debug:0,config:ICE},SIGNAL||{});
 let peer,conn,role,code,pend=null,myName='',remoteName='Đối phương',left=false;
 let call=null,incoming=null,localStream=null,callTimer=null,callSec=0,ttlSel=300,viewingId=null,callsOn=true;
 const urls={},timers={},auds={};let rec=null,G=null,gInv=null;
@@ -371,11 +373,11 @@ function start(r){
   if(typeof Peer==='undefined')return toast('Không tải được thư viện kết nối. Kiểm tra mạng và thử lại');
   myName=$('#name').value.trim()||'Ẩn danh';
   role=r;left=false;
-  if(r==='host'){code=genCode();peer=new Peer(PREFIX+code,{debug:0,config:ICE})}
+  if(r==='host'){code=genCode();peer=new Peer(PREFIX+code,PO())}
   else{
     code=$('#code').value.trim().toUpperCase();
     if(code.length<4){toast('Nhập mã mời');return}
-    peer=new Peer({debug:0,config:ICE});
+    peer=new Peer(PO());
   }
   const me=peer;
   setTimeout(()=>{if(me.open||peer!==me)return;toast('Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại');destroyPeer();show('#join')},12000);
