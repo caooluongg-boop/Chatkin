@@ -330,6 +330,7 @@ function openChat(){
   $('#msgs').innerHTML='';
   if(role==='host')sys('Phòng đã tạo. Gửi mã mời '+code+' cho người kia để vào chat.');
   show('#join',false);show('#chat');
+  guardBack();
 }
 function setStatus(on,t){$('#hdot').classList.toggle('on',on);$('#hstat').textContent=t;$('#bVoice').disabled=$('#bVideo').disabled=!on}
 
@@ -372,7 +373,9 @@ function onData(d){
   }
 }
 function peerLeft(){
-  if(left)return;left=true;
+  if(left)return;
+  if(role==='guest'){toast('Chủ phòng đã rời, phòng đã đóng');leave();return}
+  left=true;
   endCall(false);
   sys(remoteName+' đã rời phòng');
   setStatus(false,'Đã rời');
@@ -589,7 +592,19 @@ document.addEventListener('visibilitychange',()=>{
   if(!$('#chat').classList.contains('on'))return;
   $('#msgs').classList.toggle('hide',document.hidden);
 });
-addEventListener('beforeunload',()=>{try{if(ready())conn.send({t:'leave'})}catch(e){}});
+function guardBack(){try{history.pushState({ck:1},'')}catch(e){}}
+addEventListener('popstate',()=>{
+  if(!$('#chat').classList.contains('on'))return;
+  guardBack();
+  if($('#viewer').classList.contains('on')){viewingId=null;show('#viewer',false);$('#vimg').src='';return}
+  if($('#sheet').classList.contains('on')){show('#sheet',false);return}
+  if($('#call').classList.contains('on')){toast('Bấm nút đỏ để kết thúc cuộc gọi');return}
+  if(confirm('Thoát khỏi phòng chat?'))leave();
+});
+addEventListener('beforeunload',e=>{
+  if($('#chat').classList.contains('on')){e.preventDefault();e.returnValue=''}
+});
+addEventListener('pagehide',()=>{try{if(ready())conn.send({t:'leave'})}catch(e){}});
 </script>
 </body>
 </html>
