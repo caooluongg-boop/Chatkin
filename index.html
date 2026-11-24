@@ -61,7 +61,7 @@ header{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-are
 .row.mine{align-self:flex-end;align-items:flex-end}
 .row.theirs{align-self:flex-start;align-items:flex-start}
 .bubble{padding:9px 12px 6px;border-radius:18px;font-size:15px;line-height:1.4;word-break:break-word;white-space:pre-wrap}
-.mine .bubble{background:var(--a);color:var(--ink);border-bottom-right-radius:6px}
+.mine .bubble{background:var(--a);color:var(--ink);border-bottom-right-radius:6px;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .theirs .bubble{background:var(--panel2);border:1px solid var(--line);border-bottom-left-radius:6px}
 .time{font-size:10.5px;opacity:.65;text-align:right;margin-top:2px}
 .recalled{opacity:.6;font-style:italic;background:transparent!important;color:var(--mut)!important;border:1px dashed var(--line)!important}
@@ -79,7 +79,7 @@ header{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-are
 footer{display:flex;align-items:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:var(--panel);border-top:1px solid var(--line)}
 footer .in{border-radius:22px;padding:12px 16px}
 .send{background:var(--a);color:var(--ink)}
-#sheet{z-index:45;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55)}
+#sheet,#gsheet{z-index:45;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55)}
 .sbox{width:100%;max-width:520px;background:var(--panel);border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom));animation:up .22s ease}
 @keyframes up{from{transform:translateY(40px);opacity:0}}
 .sbox h2{font-size:18px}
@@ -109,6 +109,47 @@ footer .in{border-radius:22px;padding:12px 16px}
 #viewer img{max-width:100%;max-height:100%;pointer-events:none;-webkit-touch-callout:none;user-select:none}
 #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--panel2);border:1px solid #2f4d53;padding:10px 16px;border-radius:14px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:88%;text-align:center}
 #toast.on{opacity:1;transform:translateX(-50%)}
+.vm{display:flex;align-items:center;gap:10px;min-width:200px;padding-bottom:2px}
+.vp{width:36px;height:36px;border-radius:50%;background:rgba(4,35,28,.2);display:grid;place-items:center;flex:none}
+.theirs .vp{background:var(--a);color:var(--ink)}
+.vbar{flex:1;height:4px;border-radius:2px;background:rgba(4,35,28,.22);overflow:hidden}
+.theirs .vbar{background:var(--line)}
+.vbar i{display:block;height:100%;width:0;background:currentColor}
+.theirs .vbar i{background:var(--a)}
+.vd{font-size:12px;font-variant-numeric:tabular-nums;opacity:.8}
+.recbar{display:none;flex:1;align-items:center;gap:10px}
+.rdot{width:10px;height:10px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+#rtime{flex:1;font-variant-numeric:tabular-nums}
+footer.rec .in,footer.rec #bAttach,footer.rec #bMic,footer.rec #bSend{display:none}
+footer.rec .recbar{display:flex}
+.ib.live{box-shadow:0 0 0 2px var(--amb);color:var(--amb)}
+.gcard{display:flex;flex-direction:column;align-items:center;gap:8px;border-color:var(--a)}
+.grow{display:flex;gap:8px}
+.gb{padding:8px 16px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-weight:600;font-size:13px}
+.gb.yes{background:var(--a);color:var(--ink);border-color:var(--a)}
+#game{z-index:20;background:#060d0f;justify-content:center}
+.gwrap{flex:1;min-height:0;display:grid;place-items:center;padding:12px}
+.gfoot{padding:0 12px calc(12px + env(safe-area-inset-bottom))}
+#gboard{width:min(100%,calc(100vh - 220px),560px);width:min(100%,calc(100dvh - 220px),560px);aspect-ratio:1;display:grid;container-type:inline-size;user-select:none;-webkit-user-select:none}
+#gboard.chess{grid-template:repeat(8,1fr)/repeat(8,1fr);border-radius:10px;overflow:hidden;border:2px solid var(--line)}
+.sq{position:relative;display:grid;place-items:center;cursor:pointer}
+.sq.l{background:#eeeed2}.sq.d{background:#769656}
+.crd{position:absolute;font-size:11px;font-weight:700;line-height:1;pointer-events:none}
+.crd.r{left:3px;top:3px}.crd.f{right:3px;bottom:3px}
+.sq.l .crd{color:#769656}.sq.d .crd{color:#eeeed2}
+.sq.lm{box-shadow:inset 0 0 0 60px rgba(245,185,74,.4)}
+.sq.sel{box-shadow:inset 0 0 0 60px rgba(245,185,74,.75)}
+.sq.ck{box-shadow:inset 0 0 0 60px rgba(239,91,91,.7)}
+.pc{font-size:8vw;font-size:10cqw;line-height:1;pointer-events:none}
+.pc.w{color:#fff;text-shadow:0 0 2px #000,0 1px 3px rgba(0,0,0,.7)}
+.pc.b{color:#0c1517;text-shadow:0 0 1px rgba(255,255,255,.45)}
+.mvd{position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(4,35,28,.4);pointer-events:none}
+.mvc{position:absolute;inset:5%;border-radius:50%;border:4px solid rgba(4,35,28,.4);pointer-events:none}
+#gboard.xo{grid-template:repeat(3,1fr)/repeat(3,1fr);gap:8px}
+.xc{display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:16px;font-size:24cqw;font-weight:800;line-height:1;cursor:pointer}
+.xc.X{color:var(--a)}.xc.O{color:var(--amb)}
+.xc.w{background:rgba(255,255,255,.08);box-shadow:0 0 0 2px currentColor}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{body{display:none!important}}
 </style>
@@ -135,6 +176,11 @@ function loadAlt(){var s=document.createElement('script');s.src='https://cdn.jsd
 <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></symbol>
 <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+<symbol id="i-game" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10v5M4.5 12.5h5"/><circle cx="16" cy="11.5" r=".6"/><circle cx="18.5" cy="14" r=".6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
 </svg>
 
 <section id="join" class="screen on">
@@ -156,7 +202,7 @@ function loadAlt(){var s=document.createElement('script');s.src='https://cdn.jsd
     <h1>Cho phép truy cập</h1>
     <div class="sub">Chat Kín cần vài quyền để gửi ảnh, gọi điện và báo khi có tin mới. Bạn có thể từ chối và vẫn nhắn tin bình thường.</div>
     <div class="prow"><div class="pico"><svg class="i"><use href="#i-cam"/></svg></div><div class="ptx"><b>Camera</b><span>Chụp ảnh và gọi video</span></div><span class="tag" id="p-cam" data-s="prompt">Chưa cấp</span></div>
-    <div class="prow"><div class="pico"><svg class="i"><use href="#i-mic"/></svg></div><div class="ptx"><b>Micro</b><span>Gọi thoại và gọi video</span></div><span class="tag" id="p-mic" data-s="prompt">Chưa cấp</span></div>
+    <div class="prow"><div class="pico"><svg class="i"><use href="#i-mic"/></svg></div><div class="ptx"><b>Micro</b><span>Gọi thoại, gọi video và tin nhắn thoại</span></div><span class="tag" id="p-mic" data-s="prompt">Chưa cấp</span></div>
     <div class="prow"><div class="pico"><svg class="i"><use href="#i-bell"/></svg></div><div class="ptx"><b>Thông báo</b><span>Báo khi có tin nhắn mới</span></div><span class="tag" id="p-nt" data-s="prompt">Chưa cấp</span></div>
     <button class="btn" id="pAllow">Cho phép</button>
     <button class="btn ghost" id="pSkip">Tiếp tục không cấp quyền</button>
@@ -171,6 +217,7 @@ function loadAlt(){var s=document.createElement('script');s.src='https://cdn.jsd
         <b id="hname">Đang chờ…</b>
         <small><span class="dot" id="hdot"></span><span id="hstat">Chờ người kia</span><span class="chip" id="hcode" title="Chia sẻ mã"></span></small>
       </div>
+      <button class="ib" id="bGame" disabled title="Chơi game"><svg class="i"><use href="#i-game"/></svg></button>
       <button class="ib" id="bVoice" disabled title="Gọi thoại"><svg class="i"><use href="#i-phone"/></svg></button>
       <button class="ib" id="bVideo" disabled title="Gọi video"><svg class="i"><use href="#i-video"/></svg></button>
       <button class="ib exit" id="bExit" title="Thoát"><svg class="i"><use href="#i-power"/></svg></button>
@@ -179,7 +226,9 @@ function loadAlt(){var s=document.createElement('script');s.src='https://cdn.jsd
     <footer>
       <button class="ib" id="bAttach" title="Gửi ảnh hoặc video"><svg class="i"><use href="#i-clip"/></svg></button>
       <input id="txt" class="in" placeholder="Nhắn tin…" autocomplete="off">
+      <button class="ib" id="bMic" title="Ghi âm tin nhắn thoại"><svg class="i"><use href="#i-mic"/></svg></button>
       <button class="ib send" id="bSend" title="Gửi"><svg class="i"><use href="#i-send"/></svg></button>
+      <div class="recbar"><span class="rdot"></span><span id="rtime">0:00</span><button class="ib" id="rCancel" title="Hủy"><svg class="i"><use href="#i-x"/></svg></button><button class="ib send" id="rSend" title="Gửi"><svg class="i"><use href="#i-send"/></svg></button></div>
       <input type="file" id="file" accept="image/*,video/*" hidden>
       <input type="file" id="cap" accept="image/*" capture="environment" hidden>
     </footer>
@@ -229,6 +278,29 @@ function loadAlt(){var s=document.createElement('script');s.src='https://cdn.jsd
   </div>
 </section>
 
+<section id="gsheet" class="screen">
+  <div class="sbox">
+    <h2>Mời chơi game</h2>
+    <p>Người kia sẽ nhận lời mời ngay trong khung chat.</p>
+    <div class="two">
+      <button class="btn ghost" data-g="xo">X / O</button>
+      <button class="btn" data-g="chess">Cờ vua</button>
+    </div>
+  </div>
+</section>
+
+<section id="game" class="screen">
+  <div class="shell">
+    <header>
+      <button class="ib" id="gBack" title="Về khung chat"><svg class="i"><use href="#i-back"/></svg></button>
+      <div class="who"><b id="gtitle"></b><small id="gstat"></small></div>
+      <button class="ib exit" id="gQuit" title="Thoát ván"><svg class="i"><use href="#i-power"/></svg></button>
+    </header>
+    <div class="gwrap"><div id="gboard"></div></div>
+    <div class="gfoot"><button class="btn" id="gNew" style="display:none">Ván mới</button></div>
+  </div>
+</section>
+
 <section id="viewer" class="screen"><img id="vimg" draggable="false" alt=""></section>
 <div id="toast"></div>
 
@@ -246,7 +318,7 @@ const ICE={iceServers:[
 ]};
 let peer,conn,role,code,pend=null,myName='',remoteName='Đối phương',left=false;
 let call=null,incoming=null,localStream=null,callTimer=null,callSec=0,ttlSel=300,viewingId=null;
-const urls={},timers={};
+const urls={},timers={},auds={};let rec=null,G=null,gInv=null;
 
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2800)}
 function show(id,on=true){$(id).classList.toggle('on',on)}
@@ -332,7 +404,7 @@ function openChat(){
   show('#join',false);show('#chat');
   guardBack();
 }
-function setStatus(on,t){$('#hdot').classList.toggle('on',on);$('#hstat').textContent=t;$('#bVoice').disabled=$('#bVideo').disabled=!on}
+function setStatus(on,t){$('#hdot').classList.toggle('on',on);$('#hstat').textContent=t;$('#bVoice').disabled=$('#bVideo').disabled=$('#bGame').disabled=!on}
 
 async function copyCode(){
   try{await navigator.clipboard.writeText(code);toast('Đã sao chép mã mời')}
@@ -367,6 +439,13 @@ function onData(d){
     case 'del':recall(d.id);break;
     case 'shot':sys('Cảnh báo: '+remoteName+' vừa chụp màn hình cuộc trò chuyện',true);break;
     case 'leave':peerLeft();break;
+    case 'voice':{const blob=new Blob([d.data],{type:d.mime});addBubble({id:d.id,t:'voice',dur:d.dur,url:URL.createObjectURL(blob)},false);notify();break}
+    case 'ginv':if(G||gInv){conn.send({t:'gno',busy:1});break}gInv={g:d.g,out:0};gCard(d.g);notify();break;
+    case 'gyes':{if(gInv&&gInv.out){const g=gInv.g;gInv=null;gStart(g,0)}break}
+    case 'gno':gInv=null;sys(remoteName+(d.busy?' đang bận ván khác':' đã từ chối lời mời'));break;
+    case 'gmove':gApply(d.m,false);break;
+    case 'gnew':if(G&&G.over)gReset();break;
+    case 'gquit':if(G){sys(remoteName+' đã thoát ván '+GN[G.g]);gEnd()}break;
     case 'full':toast('Phòng đã đủ 2 người');leave(true);break;
     case 'endcall':endCall(false);toast('Cuộc gọi kết thúc');break;
     case 'decline':endCall(false);toast(remoteName+' từ chối cuộc gọi');break;
@@ -376,7 +455,7 @@ function peerLeft(){
   if(left)return;
   if(role==='guest'){toast('Chủ phòng đã rời, phòng đã đóng');leave();return}
   left=true;
-  endCall(false);
+  endCall(false);gEnd();
   sys(remoteName+' đã rời phòng');
   setStatus(false,'Đã rời');
   $('#txt').disabled=true;
@@ -389,6 +468,7 @@ function addBubble(m,mine){
   const row=el('div','row '+(mine?'mine':'theirs'));row.dataset.id=m.id;
   const b=el('div','bubble');
   if(m.t==='msg'){b.textContent=m.text}
+  else if(m.t==='voice'){voiceUI(b,m)}
   else{
     urls[m.id]=m.url;
     const w=el('div','media');
@@ -414,7 +494,19 @@ function addBubble(m,mine){
   b.append(el('div','time',hhmm()));
   row.append(b);
   if(mine){
-    b.onclick=()=>row.classList.toggle('sel');
+    let holdT=null,held=false;
+    const cancelHold=()=>{clearTimeout(holdT);holdT=null};
+    row.addEventListener('pointerdown',e=>{
+      if(e.button>0)return;
+      cancelHold();held=false;
+      holdT=setTimeout(()=>{holdT=null;held=true;document.querySelectorAll('.row.sel').forEach(x=>x!==row&&x.classList.remove('sel'));row.classList.add('sel');if(navigator.vibrate)navigator.vibrate(12)},450);
+    });
+    ['pointerup','pointerleave','pointercancel'].forEach(ev=>row.addEventListener(ev,cancelHold));
+    row.addEventListener('contextmenu',e=>e.preventDefault());
+    b.addEventListener('click',e=>{
+      if(held){held=false;return}
+      if(row.classList.contains('sel')){row.classList.remove('sel');e.stopPropagation()}
+    });
     const r=el('button','recall');
     r.innerHTML='<svg class="i"><use href="#i-undo"/></svg><span>Thu hồi</span>';
     r.onclick=e=>{e.stopPropagation();if(ready())conn.send({t:'del',id:m.id});recall(m.id)};
@@ -424,6 +516,7 @@ function addBubble(m,mine){
 }
 function recall(id,expired){
   delete timers[id];
+  if(auds[id]){auds[id].pause();delete auds[id]}
   if(viewingId===id){viewingId=null;show('#viewer',false);$('#vimg').src=''}
   const row=document.querySelector('.row[data-id="'+id+'"]');if(!row)return;
   if(urls[id]){try{URL.revokeObjectURL(urls[id])}catch(e){}delete urls[id]}
@@ -483,7 +576,8 @@ $('#viewer').onclick=()=>{viewingId=null;show('#viewer',false);$('#vimg').src=''
 $('#bExit').onclick=()=>{if(confirm('Thoát khỏi phòng chat?'))leave()};
 function leave(){
   try{if(ready())conn.send({t:'leave'})}catch(e){}
-  endCall(false);
+  endCall(false);gEnd();recStop(false);
+  Object.values(auds).forEach(a=>a.pause());for(const k in auds)delete auds[k];
   const p=peer;
   setTimeout(()=>{try{p&&p.destroy()}catch(e){}},250);
   peer=null;conn=null;left=false;viewingId=null;
@@ -507,6 +601,7 @@ async function getMedia(video){
 }
 async function startCall(video){
   if(!ready()||call)return;
+  if(rec)return toast('Hãy gửi hoặc hủy tin ghi âm trước');
   const s=await getMedia(video);
   if(!s)return toast('Không truy cập được micro hoặc camera. Hãy cấp quyền cho trang web');
   localStream=s;
@@ -567,7 +662,196 @@ $('#cEnd').onclick=()=>endCall(true);
 $('#cMic').onclick=()=>{if(!localStream)return;const t=localStream.getAudioTracks()[0];if(!t)return;t.enabled=!t.enabled;$('#cMic').classList.toggle('off',!t.enabled);setIcon($('#cMic'),t.enabled?'mic':'micoff')};
 $('#cCam').onclick=()=>{if(!localStream)return;const t=localStream.getVideoTracks()[0];if(!t)return;t.enabled=!t.enabled;$('#cCam').classList.toggle('off',!t.enabled);setIcon($('#cCam'),t.enabled?'cam':'camoff')};
 
+const fmtD=n=>Math.floor(n/60)+':'+String(n%60).padStart(2,'0');
+function voiceUI(b,m){
+  urls[m.id]=m.url;
+  const a=new Audio(m.url);auds[m.id]=a;
+  const w=el('div','vm'),p=el('button','vp'),bar=el('div','vbar'),f=el('i');
+  p.innerHTML='<svg class="i"><use href="#i-play"/></svg>';bar.append(f);
+  w.append(p,bar,el('span','vd',fmtD(m.dur||0)));b.append(w);
+  p.onclick=e=>{
+    e.stopPropagation();
+    if(!a.paused){a.pause();return}
+    for(const k in auds)if(auds[k]!==a)auds[k].pause();
+    if(a.ended||(a.currentTime>0&&isFinite(a.duration)&&a.currentTime>=a.duration-.1))a.currentTime=0;
+    a.play().catch(()=>toast('Không phát được tin ghi âm'));
+  };
+  a.preload='auto';
+  a.onplay=()=>setIcon(p,'pause');
+  a.onpause=()=>setIcon(p,'play');
+  a.ontimeupdate=()=>{f.style.width=Math.min(100,a.currentTime/(m.dur||(isFinite(a.duration)?a.duration:1)||1)*100)+'%'};
+  a.onended=()=>{f.style.width='0';setIcon(p,'play');try{a.currentTime=0}catch(x){}};
+}
+async function recStart(){
+  if(rec)return;
+  if(!ready())return toast('Chưa có kết nối');
+  if(call)return toast('Đang trong cuộc gọi');
+  if(!window.MediaRecorder)return toast('Trình duyệt chưa hỗ trợ ghi âm');
+  const s=await getMedia(false);
+  if(!s)return toast('Không truy cập được micro. Hãy cấp quyền cho trang web');
+  const mt=['audio/webm;codecs=opus','audio/webm','audio/mp4'].find(t=>MediaRecorder.isTypeSupported(t))||'',ch=[];
+  const mr=new MediaRecorder(s,mt?{mimeType:mt}:undefined);
+  const R=rec={mr,send:false,t0:Date.now()};
+  mr.ondataavailable=e=>{if(e.data.size)ch.push(e.data)};
+  mr.onstop=()=>{
+    clearInterval(R.iv);s.getTracks().forEach(t=>t.stop());
+    $('footer').classList.remove('rec');if(rec===R)rec=null;
+    if(!R.send||!ch.length||!ready())return;
+    const type=mr.mimeType||mt||'audio/webm',blob=new Blob(ch,{type}),dur=Math.round((Date.now()-R.t0)/1000);
+    blob.arrayBuffer().then(buf=>{const id=uid();conn.send({t:'voice',id,mime:type,dur,data:buf});addBubble({id,t:'voice',dur,url:URL.createObjectURL(blob)},true)});
+  };
+  mr.start();
+  $('#rtime').textContent='0:00';$('footer').classList.add('rec');
+  R.iv=setInterval(()=>{const d=Math.floor((Date.now()-R.t0)/1000);$('#rtime').textContent=fmtD(d);if(d>=120)recStop(true)},250);
+}
+function recStop(send){
+  if(!rec)return;
+  if(send&&Date.now()-rec.t0<700){toast('Tin ghi âm quá ngắn');send=false}
+  rec.send=send;try{rec.mr.stop()}catch(e){}
+}
+$('#bMic').onclick=recStart;
+$('#rCancel').onclick=()=>recStop(false);
+$('#rSend').onclick=()=>recStop(true);
+
+const CG={K:'♚',Q:'♛',R:'♜',B:'♝',N:'♞',P:'♟'};
+const inb=(r,c)=>r>=0&&r<8&&c>=0&&c<8;
+function chInit(){const b=Array(64).fill(null),o='RNBQKBNR';for(let i=0;i<8;i++){b[i]='b'+o[i];b[8+i]='bP';b[48+i]='wP';b[56+i]='w'+o[i]}return{b,t:'w',cr:{wK:1,wQ:1,bK:1,bQ:1},ep:-1}}
+function atk(b,s,by){
+  const r=s>>3,c=s&7,pr=by==='w'?r+1:r-1;
+  for(const dc of[-1,1])if(inb(pr,c+dc)&&b[pr*8+c+dc]===by+'P')return true;
+  for(const[dr,dc]of[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]])if(inb(r+dr,c+dc)&&b[(r+dr)*8+c+dc]===by+'N')return true;
+  for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){
+    if(!dr&&!dc)continue;
+    let rr=r+dr,cc=c+dc,n=0;
+    while(inb(rr,cc)){
+      const x=b[rr*8+cc];
+      if(x){if(x[0]===by){const p=x[1];if(p==='Q'||(dr&&dc?p==='B':p==='R')||(p==='K'&&!n))return true}break}
+      rr+=dr;cc+=dc;n++;
+    }
+  }
+  return false;
+}
+function gen(S,sq){
+  const b=S.b,pc=b[sq],c=pc[0],p=pc[1],r=sq>>3,f=sq&7,e=c==='w'?'b':'w',out=[];
+  const add=(rr,cc)=>{if(!inb(rr,cc))return false;const t=rr*8+cc,x=b[t];if(x&&x[0]===c)return false;out.push({f:sq,t});return !x};
+  const slide=ds=>ds.forEach(([dr,dc])=>{let rr=r+dr,cc=f+dc;while(add(rr,cc)){rr+=dr;cc+=dc}});
+  const D=[[1,0],[-1,0],[0,1],[0,-1]],DG=[[1,1],[1,-1],[-1,1],[-1,-1]];
+  if(p==='N')[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]].forEach(([dr,dc])=>add(r+dr,f+dc));
+  else if(p==='B')slide(DG);else if(p==='R')slide(D);else if(p==='Q')slide(D.concat(DG));
+  else if(p==='K'){
+    D.concat(DG).forEach(([dr,dc])=>add(r+dr,f+dc));
+    const k=c==='w'?56:0;
+    if(sq===k+4&&!atk(b,sq,e)){
+      if(S.cr[c+'K']&&!b[k+5]&&!b[k+6]&&b[k+7]===c+'R'&&!atk(b,k+5,e)&&!atk(b,k+6,e))out.push({f:sq,t:k+6,cs:1});
+      if(S.cr[c+'Q']&&!b[k+1]&&!b[k+2]&&!b[k+3]&&b[k]===c+'R'&&!atk(b,k+3,e)&&!atk(b,k+2,e))out.push({f:sq,t:k+2,cs:1});
+    }
+  }else{
+    const d=c==='w'?-1:1,st=c==='w'?6:1;
+    if(inb(r+d,f)&&!b[(r+d)*8+f]){out.push({f:sq,t:(r+d)*8+f});if(r===st&&!b[(r+2*d)*8+f])out.push({f:sq,t:(r+2*d)*8+f})}
+    for(const dc of[-1,1]){if(!inb(r+d,f+dc))continue;const t=(r+d)*8+f+dc,x=b[t];if(x&&x[0]===e)out.push({f:sq,t});else if(t===S.ep)out.push({f:sq,t,ep:1})}
+  }
+  return out;
+}
+function mk(S,m){
+  const b=S.b.slice(),pc=b[m.f],c=pc[0],cr={...S.cr},cm={0:'bQ',7:'bK',56:'wQ',63:'wK'};let ep=-1;
+  b[m.t]=pc;b[m.f]=null;
+  if(m.ep)b[m.t+(c==='w'?8:-8)]=null;
+  if(pc[1]==='P'){if((m.t>>3)===(c==='w'?0:7))b[m.t]=c+'Q';if(Math.abs(m.t-m.f)===16)ep=(m.f+m.t)/2}
+  if(m.cs){const k=m.f-4;if(m.t>m.f){b[k+5]=b[k+7];b[k+7]=null}else{b[k+3]=b[k];b[k]=null}}
+  if(pc[1]==='K')cr[c+'K']=cr[c+'Q']=0;
+  [m.f,m.t].forEach(q=>{if(cm[q])cr[cm[q]]=0});
+  return{b,t:c==='w'?'b':'w',cr,ep};
+}
+const inCheck=(S,c)=>atk(S.b,S.b.indexOf(c+'K'),c==='w'?'b':'w');
+function legal(S,sq){const c=S.b[sq][0];return gen(S,sq).filter(m=>!inCheck(mk(S,m),c))}
+function anyMove(S){for(let i=0;i<64;i++)if(S.b[i]&&S.b[i][0]===S.t&&legal(S,i).length)return true;return false}
+
+const GN={xo:'X / O',chess:'Cờ vua'};
+const XOW=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const gS=g=>g==='xo'?{b:Array(9).fill(''),t:0}:chInit();
+const tn=()=>G.g==='xo'?G.S.t:(G.S.t==='w'?0:1);
+function gStart(g,me){G={g,me,S:gS(g),over:0,sel:null,last:null,line:null};show('#gsheet',false);show('#game');$('#bGame').classList.add('live');gRender()}
+function gReset(){G.me^=1;G.S=gS(G.g);G.over=0;G.sel=null;G.last=null;G.line=null;gRender()}
+function gEnd(){G=null;gInv=null;show('#game',false);$('#bGame').classList.remove('live')}
+function gInvite(g){
+  if(!ready())return toast('Chưa có kết nối');
+  if(G||gInv)return toast(G?'Đang chơi một ván rồi':'Đang chờ trả lời lời mời');
+  gInv={g,out:1};conn.send({t:'ginv',g});
+  show('#gsheet',false);sys('Bạn đã mời '+remoteName+' chơi '+GN[g]+'. Đang chờ trả lời…');
+}
+function gCard(g){
+  const d=el('div','sys gcard'),r=el('div','grow'),y=el('button','gb yes','Chơi'),n=el('button','gb','Từ chối');
+  r.append(y,n);d.append(el('div',null,remoteName+' mời bạn chơi '+GN[g]),r);$('#msgs').append(d);scroll();
+  y.onclick=()=>{r.remove();if(!gInv||gInv.out||!ready())return toast('Lời mời đã hết hạn');gInv=null;conn.send({t:'gyes'});gStart(g,1)};
+  n.onclick=()=>{r.remove();if(gInv&&!gInv.out){gInv=null;if(ready())conn.send({t:'gno'})}};
+}
+function gFinish(w,why){
+  G.over=1;const y=why?' ('+why+')':'';
+  G.res=w<0?'Hòa'+y:(w===G.me?'Bạn thắng':remoteName+' thắng')+y;
+  sys('Ván '+GN[G.g]+': '+G.res);
+}
+function gApply(m,mine){
+  if(!G||G.over||!m||(tn()===G.me)!==mine)return false;
+  const S=G.S,mv=mine?G.me:1-G.me;
+  if(G.g==='xo'){
+    if(!(m.i>=0&&m.i<9)||S.b[m.i])return false;
+    S.b[m.i]=S.t?'O':'X';S.t^=1;G.last=m.i;
+    const w=XOW.find(l=>S.b[l[0]]&&S.b[l[0]]===S.b[l[1]]&&S.b[l[0]]===S.b[l[2]]);
+    if(w){G.line=w;gFinish(mv)}else if(S.b.every(Boolean))gFinish(-1);
+  }else{
+    const p=S.b[m.f],x=p&&p[0]===S.t&&legal(S,m.f).find(y=>y.t===m.t);
+    if(!x)return false;
+    G.S=mk(S,x);G.last=[m.f,m.t];
+    if(!anyMove(G.S)){if(inCheck(G.S,G.S.t))gFinish(mv,'chiếu hết');else gFinish(-1,'hết nước đi')}
+  }
+  G.sel=null;gRender();
+  if(!mine&&!G.over&&!$('#game').classList.contains('on'))toast(remoteName+' đã đi, đến lượt bạn');
+  return true;
+}
+function gMine(m){if(!ready())return toast('Mất kết nối');if(gApply(m,true))conn.send({t:'gmove',m})}
+function gTap(i){
+  if(!G||G.over||tn()!==G.me)return;
+  const S=G.S,p=S.b[i];
+  if(G.sel!=null&&legal(S,G.sel).some(x=>x.t===i))return gMine({f:G.sel,t:i});
+  G.sel=p&&p[0]===S.t?i:null;gRender();
+}
+function gRender(){
+  const B=$('#gboard'),S=G.S,my=!G.over&&tn()===G.me;
+  B.innerHTML='';B.className=G.g;
+  $('#gtitle').textContent=GN[G.g]+' – '+(G.g==='xo'?(G.me?'bạn là O':'bạn là X'):(G.me?'bạn cầm quân đen':'bạn cầm quân trắng'));
+  const chk=G.g==='chess'&&!G.over&&inCheck(S,S.t);
+  $('#gstat').textContent=G.over?G.res:(my?'Đến lượt bạn':'Chờ '+remoteName+' đi')+(chk?', chiếu tướng!':'');
+  $('#gNew').style.display=G.over?'':'none';
+  if(G.g==='xo'){
+    S.b.forEach((v,i)=>{const c=el('div','xc'+(v?' '+v:'')+(G.line&&G.line.includes(i)?' w':''),v);c.onclick=()=>{if(my&&!v)gMine({i})};B.append(c)});
+    return;
+  }
+  const mvs=G.sel!=null&&my?legal(S,G.sel):[],ck=chk?S.b.indexOf(S.t+'K'):-1;
+  for(let k=0;k<64;k++){
+    const i=G.me?63-k:k,p=S.b[i];
+    const q=el('div','sq '+(((i>>3)+(i&7))%2?'d':'l')+(G.sel===i?' sel':'')+(G.last&&G.last.includes(i)?' lm':'')+(i===ck?' ck':''));
+    if(!(k&7))q.append(el('span','crd r',String(8-(i>>3))));
+    if(k>>3===7)q.append(el('span','crd f','abcdefgh'[i&7]));
+    if(p)q.append(el('span','pc '+p[0],CG[p[1]]+'\uFE0E'));
+    const x=mvs.find(y=>y.t===i);
+    if(x)q.append(el('i',p||x.ep?'mvc':'mvd'));
+    q.onclick=()=>gTap(i);
+    B.append(q);
+  }
+}
+$('#bGame').onclick=()=>{if(G)show('#game');else if(ready())show('#gsheet');else toast('Chưa có kết nối')};
+$('#gsheet').onclick=e=>{const b=e.target.closest('[data-g]');if(b)gInvite(b.dataset.g);else if(e.target.id==='gsheet')show('#gsheet',false)};
+$('#gBack').onclick=()=>show('#game',false);
+$('#gNew').onclick=()=>{if(!ready())return toast('Mất kết nối');conn.send({t:'gnew'});gReset()};
+$('#gQuit').onclick=()=>{
+  if(!G)return;
+  if(!G.over&&!confirm('Thoát ván và đóng game cho cả hai?'))return;
+  if(ready())conn.send({t:'gquit'});
+  sys('Bạn đã thoát ván '+GN[G.g]);gEnd();
+};
+
 document.addEventListener('contextmenu',e=>{if(e.target.closest('.media,#viewer,#call'))e.preventDefault()});
+document.addEventListener('pointerdown',e=>{document.querySelectorAll('.row.sel').forEach(r=>{if(!r.contains(e.target))r.classList.remove('sel')})});
 document.addEventListener('dragstart',e=>e.preventDefault());
 document.addEventListener('copy',e=>{if(!e.target.closest('input'))e.preventDefault()});
 
@@ -597,8 +881,9 @@ addEventListener('popstate',()=>{
   if(!$('#chat').classList.contains('on'))return;
   guardBack();
   if($('#viewer').classList.contains('on')){viewingId=null;show('#viewer',false);$('#vimg').src='';return}
-  if($('#sheet').classList.contains('on')){show('#sheet',false);return}
+  if($('#sheet').classList.contains('on')||$('#gsheet').classList.contains('on')){show('#sheet',false);show('#gsheet',false);return}
   if($('#call').classList.contains('on')){toast('Bấm nút đỏ để kết thúc cuộc gọi');return}
+  if($('#game').classList.contains('on')){show('#game',false);return}
   if(confirm('Thoát khỏi phòng chat?'))leave();
 });
 addEventListener('beforeunload',e=>{
